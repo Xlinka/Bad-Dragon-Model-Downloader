@@ -101,8 +101,15 @@ public class Program
 
     static async Task DownloadProduct(DownloadableProduct product, string saveDir)
     {
-        await DownloadFile(product.PreviewObjectUrl, Path.Combine(saveDir, $"{product.Name}.obj"));
-        await DownloadFile(product.PreviewTextureMapUrl, Path.Combine(saveDir, $"{product.Name}_texture_map.png"));
-        await DownloadFile(product.PreviewNormalMapUrl, Path.Combine(saveDir, $"{product.Name}_normal_map.png"));
+        var productDir = Path.Combine(saveDir, product.Name);
+
+        if (!Directory.Exists(productDir))
+        {
+            Directory.CreateDirectory(productDir);
+        }
+
+        await DownloadFile(product.PreviewObjectUrl, Path.Combine(productDir, $"{product.Name}.obj"));
+        await DownloadFile(product.PreviewTextureMapUrl, Path.Combine(productDir, $"{product.Name}_texture_map.png"));
+        await DownloadFile(product.PreviewNormalMapUrl, Path.Combine(productDir, $"{product.Name}_normal_map.png"));
     }
 }
